@@ -15,7 +15,7 @@
 ## Golden replay 1 (drift workflow) — status at submission
 
 `golden-drift.yml` dispatched 15 staged replays at ~15:17 UTC; they run one at a time
-(~6 min each) and were still running at submission. The scorer was moved into
+(~6 min each, serialised by one concurrency group — since changed to one group per case so replays run in parallel) and were still running at submission. The scorer was moved into
 `golden-drift.yml` after finding that `workflow_run` listeners never fire for runs
 dispatched with `GITHUB_TOKEN`; re-score with
 `gh workflow run golden-drift.yml -f mode=score-only -f since=2026-11-01T15:17:00Z`.

@@ -43,8 +43,8 @@ jobs:
   drift:
     if: vars.TRIAGE_AGENT_ENABLED == 'true'
     runs-on: ubuntu-latest
-    # Replays share one concurrency group and run one at a time (~6 min each).
-    timeout-minutes: 90
+    # Replays run in parallel (one concurrency group per case), ~8-10 min in total.
+    timeout-minutes: 45
     env:
       GH_TOKEN: ${{ github.token }}
       WF: issue-triage-golden.lock.yml
@@ -79,7 +79,7 @@ jobs:
       - name: Wait for all replays to finish
         run: |
           set -euo pipefail
-          for i in $(seq 1 170); do
+          for i in $(seq 1 40); do
             runs=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/$WF/runs?per_page=100" \
               | jq --arg s "${{ steps.dispatch.outputs.since }}" '[.workflow_runs[] | select(.created_at >= $s)]')
             total=$(jq length <<<"$runs"); done_=$(jq '[.[] | select(.status=="completed")] | length' <<<"$runs")

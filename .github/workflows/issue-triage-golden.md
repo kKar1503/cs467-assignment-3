@@ -20,6 +20,13 @@ permissions:
   contents: read
   issues: read
 
+# One group per case so replays run in parallel (default would serialise every
+# workflow_dispatch run in a single group). A second pending dispatch of the same case
+# replaces the first; different cases never block each other.
+concurrency:
+  group: "gh-aw-${{ github.workflow }}-${{ github.event.inputs.case_id }}"
+  cancel-in-progress: false
+
 engine:
   id: claude
   # Exact model ID (not an alias such as 'sonnet' or 'auto'), so a model change is a
