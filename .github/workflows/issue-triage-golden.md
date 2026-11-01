@@ -88,6 +88,11 @@ steps:
       set -euo pipefail
       case "$CASE_ID" in *[!a-z0-9-]*|"") echo "invalid case id"; exit 1;; esac
       node evals/golden/replay-inputs.mjs "$CASE_ID" /tmp/gh-aw/agent/triage
+post-steps:
+  - name: Audit summary (model, tokens, tools, skill use)
+    if: always()
+    # GH_AW_PRIMARY_MODEL / GH_AW_AIC are exported by gh-aw after the engine step.
+    run: node .github/aw/audit-summary.mjs /tmp/gh-aw || true
 ---
 
 # ctx-log issue triage (golden replay)

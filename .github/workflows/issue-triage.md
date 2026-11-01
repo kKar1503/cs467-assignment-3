@@ -105,6 +105,11 @@ steps:
         | jq -s "[.[][] | $slim | select(.is_pull_request | not) | select(.number != ${ISSUE_NUMBER})]" \
         > "$out/existing-issues.json"
       echo "snapshot: issue #${ISSUE_NUMBER}, $(jq length "$out/existing-issues.json") existing issues"
+post-steps:
+  - name: Audit summary (model, tokens, tools, skill use)
+    if: always()
+    # GH_AW_PRIMARY_MODEL / GH_AW_AIC are exported by gh-aw after the engine step.
+    run: node .github/aw/audit-summary.mjs /tmp/gh-aw || true
 ---
 
 # ctx-log issue triage
