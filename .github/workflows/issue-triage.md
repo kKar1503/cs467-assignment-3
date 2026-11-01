@@ -2,6 +2,7 @@
 description: First-pass triage of newly opened ctx-log issues (type/area labels, duplicate hint, missing-info request).
 intent: Give every new issue a correct first response within minutes so the single maintainer only reviews, never sorts.
 labels: ["triage", "issues"]
+# Owner / accountable maintainer: @kKar1503 (see .github/CODEOWNERS and DESIGN.md).
 
 on:
   issues:
@@ -38,7 +39,8 @@ user-rate-limit:
   max-runs-per-window: 3
   window: 60
 # Budget guardrail on estimated inference spend for this workflow (AIC = $0.01).
-max-daily-ai-credits: 300
+# 300 tripped after 14 runs in live-run-1 (~23 AIC/run recorded); 600 ≈ 25 issues/day.
+max-daily-ai-credits: 600
 
 # Egress firewall: no ecosystem domains; gh-aw adds only the engine endpoint.
 network:
@@ -104,6 +106,11 @@ steps:
         | jq -s "[.[][] | $slim | select(.is_pull_request | not) | select(.number != ${ISSUE_NUMBER})]" \
         > "$out/existing-issues.json"
       echo "snapshot: issue #${ISSUE_NUMBER}, $(jq length "$out/existing-issues.json") existing issues"
+post-steps:
+  - name: Audit summary (model, tokens, tools, skill use)
+    if: always()
+    # GH_AW_PRIMARY_MODEL / GH_AW_AIC are exported by gh-aw after the engine step.
+    run: node .github/aw/audit-summary.mjs /tmp/gh-aw || true
 ---
 
 # ctx-log issue triage

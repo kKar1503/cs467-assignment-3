@@ -1,7 +1,10 @@
 name: Golden drift check
-# Re-runs every frozen golden case through issue-triage-golden (staged, no writes).
-# Monthly, and whenever the agent configuration changes on main. Results are scored by
-# golden-score.yml; a failing case turns that run red and emails the repository owner.
+# Owner: @kKar1503.
+# Re-runs every frozen golden case through issue-triage-golden (staged, no writes), waits
+# for all replays, downloads each replay's agent artifact and scores it against
+# evals/golden/cases/<id>.json. Any failing case turns this run red (GitHub emails the
+# owner). Scoring happens here, not in a workflow_run listener, because runs dispatched
+# with GITHUB_TOKEN do not emit workflow_run events.
 on:
   schedule:
     - cron: "23 4 1 * *"   # 04:23 UTC on the 1st of each month
@@ -12,6 +15,21 @@ on:
       - ".claude/skills/issue-triage/**"
       - "AGENTS.md"
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "dispatch-and-score, or score-only (score replays created since 'since')"
+        type: choice
+        options: [dispatch-and-score, score-only]
+        default: dispatch-and-score
+      cases:
+        description: "core (5 representative cases, default) or all (every case)"
+        type: choice
+        options: [core, all]
+        default: core
+      since:
+        description: "score-only: ISO timestamp of the first replay to score"
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -22,22 +40,71 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  dispatch:
+  drift:
     if: vars.TRIAGE_AGENT_ENABLED == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # Replays run in parallel (one concurrency group per case), ~8-10 min in total.
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+      WF: issue-triage-golden.lock.yml
+      # Core set: complete bug, poisoned duplicate-search output (Q4), duplicate,
+      # Q1 close-stale claim, hidden-comment injection. ~5 x $0.35 per drift check.
+      CORE: "01-filtered-writer-drops-errors 03-disable-console-colours 08-duplicate-of-01 15-close-stale-issues-claim 16-hidden-comment-injection"
+      SET: ${{ github.event.inputs.cases || 'core' }}
     steps:
       - uses: actions/checkout@v4
       - name: Dispatch one staged replay per golden case
-        env:
-          GH_TOKEN: ${{ github.token }}
+        id: dispatch
         run: |
           set -euo pipefail
+          since="${{ github.event.inputs.since }}"
+          ids=""
           for f in evals/golden/cases/*.json; do
             id=$(basename "$f" .json)
-            if [ "$(jq -r .expected.action "$f")" = "skipped" ]; then
-              echo "skip $id (workflow-level gate, not an agent decision)"; continue
-            fi
-            gh workflow run issue-triage-golden.lock.yml --ref "${GITHUB_REF_NAME}" -f case_id="$id"
-            echo "dispatched $id"; sleep 3
+            [ "$(jq -r .expected.action "$f")" = "skipped" ] && continue   # workflow-level gate, no agent
+            [ "$SET" = core ] && [[ " $CORE " != *" $id "* ]] && continue
+            ids="$ids $id"
           done
+          expected=$(wc -w <<<"$ids")
+          if [ "${{ github.event.inputs.mode }}" != "score-only" ]; then
+            since=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+            for id in $ids; do
+              gh workflow run "$WF" --ref "$GITHUB_REF_NAME" -f case_id="$id"
+              sleep 3
+            done
+          fi
+          echo "since=$since" >> "$GITHUB_OUTPUT"
+          echo "expected=$expected" >> "$GITHUB_OUTPUT"
+      - name: Wait for all replays to finish
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 40); do
+            runs=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/$WF/runs?per_page=100" \
+              | jq --arg s "${{ steps.dispatch.outputs.since }}" '[.workflow_runs[] | select(.created_at >= $s)]')
+            total=$(jq length <<<"$runs"); done_=$(jq '[.[] | select(.status=="completed")] | length' <<<"$runs")
+            echo "replays: $done_/$total completed (expected ${{ steps.dispatch.outputs.expected }})"
+            [ "$total" -ge "${{ steps.dispatch.outputs.expected }}" ] && [ "$done_" = "$total" ] && exit 0
+            sleep 60
+          done
+          echo "timed out waiting for replays"; exit 1
+      - name: Score every replay
+        run: |
+          set -uo pipefail
+          runs=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/$WF/runs?per_page=100" \
+            | jq -r --arg s "${{ steps.dispatch.outputs.since }}" '.workflow_runs[] | select(.created_at >= $s) | .id')
+          fail=0
+          echo "### Golden drift — model replays since ${{ steps.dispatch.outputs.since }}" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          for rid in $runs; do
+            d="replay/$rid"; mkdir -p "$d"
+            if ! gh run download "$rid" -n agent -D "$d" >/dev/null 2>&1; then
+              echo "FAIL  run $rid: no agent artifact (agent did not run)" | tee -a "$GITHUB_STEP_SUMMARY"; fail=1; continue
+            fi
+            id=$(grep -m1 -oE 'Golden case: [a-z0-9-]+' "$d/aw-prompts/prompt.txt" | cut -d' ' -f3)
+            skill=$(grep -c '"name":"Skill"' "$d/agent-session.jsonl" 2>/dev/null || echo 0)
+            out=$(node evals/golden/score.mjs --case "$id" --agent-output "$d/agent_output.json" | head -1) || fail=1
+            echo "$out  [run $rid, skill_calls=$skill]" | tee -a "$GITHUB_STEP_SUMMARY"
+          done
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          exit $fail

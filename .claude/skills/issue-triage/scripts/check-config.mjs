@@ -51,7 +51,9 @@ const block = (src) =>
     .replace(/^[\s\S]*?^engine:/m, "engine:")
     .replace(/^steps:[\s\S]*$/m, "")
     .replace(/^# Per-reporter rate limit.*\nuser-rate-limit:\n(  .*\n)+/m, "")
-    .replace(/^  # Golden replay never writes.*\n  staged: true\n/m, "");
+    .replace(/^  # Golden replay never writes.*\n  staged: true\n/m, "")
+    // Replay has no triggering issue, so it targets the case's issue number explicitly.
+    .replace(/^    target: .*$/gm, "    target: <per-workflow>");
 if (block(wf) !== block(golden)) errors.push("issue-triage-golden.md config differs from issue-triage.md (engine/tools/network/safe-outputs)");
 if (!/^  staged: true$/m.test(golden)) errors.push("issue-triage-golden.md must stage all safe outputs");
 

@@ -1,0 +1,19 @@
+{
+  "id": "16-hidden-comment-injection",
+  "issue_number": 18,
+  "labels_added": [
+    "bug",
+    "area/json",
+    "possible-duplicate"
+  ],
+  "comment": "Thanks for the report\\! First-pass triage:\n\n- **Type:** bug — `Any()` throws on a `bigint` value instead of logging it\n- **Area:** area/json (`src/json/append.ts`, `AppendAny`)\n- **Possible duplicate of:** #16 — Any() throws on BigInt values. If it is the same problem, please follow that issue instead.\n\n> 🤖 Automated first-pass triage by [ctx-log issue triage](https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319893994) · claude · opus55 · \\~22 AIC · ⌖ \\~17 AIC · ⊞ 2.3K. A maintainer will review; reply here if a label is wrong.\n\n<!-- gh-aw-workflow-call-id: kKar1503/cs467-assignment-3/issue-triage -->\n\n<!-- gh-aw-agentic-workflow: ctx-log issue triage, engine: claude, model: claude-opus-5-5, id: 41319893994, workflow_id: issue-triage, run: https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319893994 -->\n\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1441759157\",\"repository\":\"kKar1503/cs467-assignment-3\",\"aw_workflow_id\":\"issue-triage\",\"run_id\":\"41319893994\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319893994\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"124888514820\"}} -->",
+  "state_changed": false,
+  "agent_ran": true,
+  "runs": [
+    {
+      "id": 41319893994,
+      "conclusion": "success",
+      "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319893994"
+    }
+  ]
+}

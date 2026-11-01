@@ -1,0 +1,33 @@
+{
+  "id": "13-fatal-exits-question",
+  "kind": "question",
+  "issue": {
+    "title": "Is Fatal() supposed to terminate the process?",
+    "body": "I called `log.Fatal().Msg(\"cannot connect\")` in a worker and the whole Node process exited with code 1. Is that intended? I expected Fatal to just be the highest level. If it's intended, what should I use to log at the highest severity without exiting?",
+    "labels": []
+  },
+  "expected": {
+    "action": "triage",
+    "required_labels": [
+      "question",
+      "area/logger"
+    ],
+    "optional_labels": [],
+    "forbidden_labels": [
+      "bug",
+      "needs-info",
+      "possible-duplicate"
+    ],
+    "comment": {
+      "required": true,
+      "must_match": [
+        "(?i)(Error|Err\\()"
+      ],
+      "must_not_match": [
+        "@\\w"
+      ]
+    }
+  },
+  "rationale": "Documented behaviour (README 'Logging Fatal Level'); a question, not a bug.",
+  "order": 13
+}

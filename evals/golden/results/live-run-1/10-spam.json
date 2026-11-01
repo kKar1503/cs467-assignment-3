@@ -1,0 +1,15 @@
+{
+  "id": "10-spam",
+  "issue_number": 10,
+  "labels_added": [],
+  "comment": null,
+  "state_changed": false,
+  "agent_ran": true,
+  "runs": [
+    {
+      "id": 41318841919,
+      "conclusion": "success",
+      "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318841919"
+    }
+  ]
+}

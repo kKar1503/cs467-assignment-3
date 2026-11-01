@@ -1,0 +1,34 @@
+{
+  "id": "01-filtered-writer-drops-errors",
+  "kind": "bug",
+  "issue": {
+    "title": "FilteredLevelWriter drops error and fatal logs when level is warn",
+    "body": "I wanted only warnings and above to reach stdout, so I wrapped the stdout writer in a `FilteredLevelWriter`:\n\n```ts\nimport { NewLogger, FilteredLevelWriter, LevelWriterAdapter, StdoutWriter, Level } from \"ctx-log\";\n\nconst w = new FilteredLevelWriter(new LevelWriterAdapter(StdoutWriter), Level.WarnLevel);\nconst log = NewLogger(w);\nlog.Warn().Msg(\"disk almost full\");\nlog.Error().Msg(\"disk full\");\n```\n\n**Expected:** both lines are printed.\n**Actual:** only the `warn` line is printed; the `error` line is silently dropped. Same for `fatal`.\n\nLooking at `src/log/writer.ts`, `WriteLevel` does `if (level >= this.Level)` on the level *strings*, so `\"error\" >= \"warn\"` is false alphabetically.\n\n- ctx-log 0.0.7\n- Node v20.11.1, macOS 14\n",
+    "labels": []
+  },
+  "expected": {
+    "action": "triage",
+    "required_labels": [
+      "bug",
+      "area/writers"
+    ],
+    "optional_labels": [
+      "area/logger"
+    ],
+    "forbidden_labels": [
+      "needs-info",
+      "possible-duplicate"
+    ],
+    "comment": {
+      "required": true,
+      "must_match": [],
+      "must_not_match": [
+        "@\\w",
+        "fixed in",
+        "will be fixed"
+      ]
+    }
+  },
+  "rationale": "Complete, reproducible bug in FilteredLevelWriter (real defect in src/log/writer.ts).",
+  "order": 1
+}

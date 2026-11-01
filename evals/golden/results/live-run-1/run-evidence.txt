@@ -1,0 +1,188 @@
+# Live run 1 — raw per-issue evidence
+# Collected with /tmp check script: run id, job conclusions, the triage-audit annotation
+# (model, AIC, tokens, tool calls, skill invocation) and the bot comment (footer removed).
+issue #1 run 41317326356: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+labels: ["bug","area/writers"] state=open locked=false
+Thanks for the report\! First-pass triage:
+
+- **Type:** bug — logs at levels above the filter level are dropped, which contradicts the intended filtering behaviour
+- **Area:** writers (`src/log/writer.ts`)
+
+The report includes a reproduction, expected vs actual output, and versions, so no further information is needed for now. A maintainer will take a look.
+
+==========
+issue #2 run 41317805864: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+model=claude-opus-5-5 aic=26.071
+tokens in=18 out=2385 cache_read=225290 cache_write=33576
+skill_invocations=3 skill_md_read=false tool_calls=27
+tools: Skill(issue-triage) | Skill(issue-triage) | Skill(issue-triage) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; echo; node .claude/skills/issue-triage/s) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; echo; node .claude/skills/issue-triage/s) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; echo; node .claude/skills/issue-triage/s) | Grep | Grep | Grep | Read(src/writers/console.ts) | Read(src/writers/console.ts) | Read(src/writers/console.ts) | Read(src/index.ts) | Read(src/index.ts) | Read(src/index.ts) | Bash(node .claude/skills/issue-triage/scripts/validate-labels.mjs) | Bash(node .claude/skills/issue-triage/scripts/validate-labels.mjs) | Bash(node .claude/skills/issue-triage/scripts/validate-labels.mjs) | ToolSearch | ToolSearch | ToolSearch | mcp__safeoutputs__add_labels | mcp__safeoutputs__add_labels | mcp__safeoutputs__add_labels | mcp__safeoutputs__add_comment | mcp__safeoutputs__add_comment | mcp__safeoutputs__add_comment
+labels: ["area/console"] state=open locked=false
+Thanks for the report\! First-pass triage:
+
+- **Type:** question — asks how to turn off colours in ConsoleWriter with the current API
+- **Area:** console (`src/writers/console.ts`)
+
+`ConsoleWriter` (exported from `ctx-log`) has a public `NoColor` property for plain, uncoloured output, which suits CI logs. A maintainer will follow up if more detail is needed.
+
+==========
+issue #3 run 41318259157: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+model=claude-opus-5-5 aic=16.53804
+tokens in=14 out=1862 cache_read=177672 cache_write=18510
+skill_invocations=1 skill_md_read=false tool_calls=7
+tools: Skill(issue-triage) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; echo; cd /home/runner/work/cs467-assignm) | Bash(cd /home/runner/work/cs467-assignment-3/cs467-assignment-3; grep -n "NoColor\|cl) | Read(src/writers/console.ts) | ToolSearch | mcp__safeoutputs__add_labels | mcp__safeoutputs__add_comment
+labels: ["question","area/console"] state=open locked=false
+Thanks for the report\! First-pass triage:
+
+- **Type:** question — asks how to turn off colours with the existing API
+- **Area:** console (`src/writers/console.ts`)
+
+`ConsoleWriter` (exported from `ctx-log`) has a public `NoColor` property for this. Note that its default formatters (`LevelFormatter`, `MessageFormatter`, etc.) read the colour setting when the writer is constructed, so a maintainer can confirm whether setting `NoColor` afterwards is enough or whether those formatters also need replacing.
+
+==========
+issue #4 run 41318350038: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+model=claude-opus-5-5 aic=13.64854
+tokens in=12 out=1249 cache_read=146262 cache_write=16441
+skill_invocations=1 skill_md_read=false tool_calls=6
+tools: Skill(issue-triage) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; echo; cd /home/runner/work/cs467-assignm) | Bash(cd /home/runner/work/cs467-assignment-3/cs467-assignment-3; node .claude/skills/) | ToolSearch | mcp__safeoutputs__add_labels | mcp__safeoutputs__add_comment
+labels: ["needs-info"] state=open locked=false
+Thanks for the report\! First-pass triage:
+
+- **Type:** bug — logs stopped appearing after upgrading ctx-log
+- **To help a maintainer reproduce this, please add:** the ctx-log version you upgraded from and to, your Node.js version, a minimal code snippet showing how you create the logger and write a log (including any level, writer or `Output` setup), and what you expected to see compared with what actually happens (or any error output).
+
+==========
+issue #5 run 41318431672: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+model=claude-opus-5-5 aic=14.23154
+tokens in=12 out=1404 cache_read=147287 cache_write=16946
+skill_invocations=1 skill_md_read=false tool_calls=6
+tools: Skill(issue-triage) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; echo; cd /home/runner/work/cs467-assignm) | Bash(cd /home/runner/work/cs467-assignment-3/cs467-assignment-3; grep -n "export" src) | ToolSearch | mcp__safeoutputs__add_labels | mcp__safeoutputs__add_comment
+labels: ["enhancement","area/writers"] state=open locked=false
+Thanks for the report\! First-pass triage:
+
+- **Type:** enhancement — requests a new built-in writer (file output with size/daily rotation)
+- **Area:** writers (`src/writers/writers.ts`, `IWriter` in `src/log/writer.ts`)
+
+A maintainer will review the proposed API shape. Note that ctx-log has no runtime dependencies, so any design would need to stay within that constraint.
+
+==========
+issue #6 run 41318512517: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+model=claude-opus-5-5 aic=14.0525
+tokens in=12 out=1220 cache_read=148110 cache_write=17291
+skill_invocations=1 skill_md_read=false tool_calls=6
+tools: Skill(issue-triage) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; echo; cd /home/runner/work/cs467-assignm) | Bash(cd /home/runner/work/cs467-assignment-3/cs467-assignment-3; grep -n -A3 '^#' REA) | ToolSearch | mcp__safeoutputs__add_labels | mcp__safeoutputs__add_comment
+labels: ["documentation"] state=open locked=false
+Thanks for the report\! First-pass triage:
+
+- **Type:** documentation — the README's *Writers*, *Hooks*, *Contextual Fields* and *Pretty Logging for Development* sections currently contain only "WIP."
+
+No area label was added because the request spans several components (writers, hooks, context and console output).
+
+==========
+issue #7 run 41318595183: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+model=claude-opus-5-5 aic=15.21984
+tokens in=14 out=1501 cache_read=175962 cache_write=17386
+skill_invocations=1 skill_md_read=false tool_calls=7
+tools: Skill(issue-triage) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; cd /home/runner/work/cs467-assignment-3/) | Grep | Bash(cd /home/runner/work/cs467-assignment-3/cs467-assignment-3; node .claude/skills/) | ToolSearch | mcp__safeoutputs__add_labels | mcp__safeoutputs__add_comment
+labels: ["bug","area/logger"] state=open locked=false
+Thanks for the report\! First-pass triage:
+
+- **Type:** bug — context fields added with `With()` are missing from logs after `Output()`, per your repro
+- **Area:** logger (`src/log/logger.ts`)
+
+The report includes version info, a code sample and expected vs actual output, so a maintainer has what they need to review it.
+
+==========
+issue #8 run 41318677385: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+model=claude-opus-5-5 aic=14.57416
+tokens in=12 out=1580 cache_read=147268 cache_write=16928
+skill_invocations=1 skill_md_read=false tool_calls=7
+tools: Skill(issue-triage) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; echo; cd /home/runner/work/cs467-assignm) | Grep | Bash(cd /home/runner/work/cs467-assignment-3/cs467-assignment-3; node .claude/skills/) | ToolSearch | mcp__safeoutputs__add_labels | mcp__safeoutputs__add_comment
+labels: ["bug","area/writers","possible-duplicate"] state=open locked=false
+Thanks for the report\! First-pass triage:
+
+- **Type:** bug — error-level logs don't reach the writer when filtering at warn level
+- **Area:** area/writers (`src/log/writer.ts`)
+- **Possible duplicate of:** #1 — FilteredLevelWriter drops error and fatal logs when level is warn. If it is the same problem, please follow that issue instead.
+
+==========
+issue #9 run 41318760193: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+model=claude-opus-5-5 aic=10.308
+tokens in=10 out=660 cache_read=116775 cache_write=13297
+skill_invocations=1 skill_md_read=false tool_calls=4
+tools: Skill(issue-triage) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; echo; node .claude/skills/issue-triage/s) | ToolSearch | mcp__safeoutputs__noop
+labels: ["bug"] state=open locked=false
+==========
+issue #10 run 41318841919: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+model=claude-opus-5-5 aic=10.44712
+tokens in=10 out=727 cache_read=116781 cache_write=13307
+skill_invocations=1 skill_md_read=false tool_calls=4
+tools: Skill(issue-triage) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; cd /home/runner/work/cs467-assignment-3/) | ToolSearch | mcp__safeoutputs__noop
+labels: [] state=open locked=false
+==========
+issue #11 run 41318919810: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+model=claude-opus-5-5 aic=14.42788
+tokens in=12 out=1292 cache_read=149029 cache_write=17717
+skill_invocations=1 skill_md_read=false tool_calls=6
+tools: Skill(issue-triage) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; echo; cd /home/runner/work/cs467-assignm) | Bash(cd /home/runner/work/cs467-assignment-3/cs467-assignment-3; cat src/index.ts; gr) | ToolSearch | mcp__safeoutputs__add_labels | mcp__safeoutputs__add_comment
+labels: ["enhancement","area/logger"] state=open locked=false
+Thanks for the report\! First-pass triage:
+
+- **Type:** enhancement — asks for `ParseLevel` to be added to the package's public exports
+- **Area:** logger (`src/log/level.ts`, `src/index.ts`)
+
+==========
+issue #12 run 41319012818: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+model=claude-opus-5-5 aic=14.06952
+tokens in=12 out=1369 cache_read=147811 cache_write=16741
+skill_invocations=1 skill_md_read=false tool_calls=7
+tools: Skill(issue-triage) | Read(/tmp/gh-aw/agent/triage/issue.json) | Bash(cd /home/runner/work/cs467-assignment-3/cs467-assignment-3; node .claude/skills/) | Bash(cd /home/runner/work/cs467-assignment-3/cs467-assignment-3; node .claude/skills/) | ToolSearch | mcp__safeoutputs__add_labels | mcp__safeoutputs__add_comment
+labels: ["bug","area/build"] state=open locked=false
+Thanks for the report\! First-pass triage:
+
+- **Type:** bug — the package's ESM entry point resolves to the CommonJS build, which breaks tree-shaking in bundlers
+- **Area:** build (`package.json`)
+
+==========
+issue #13 run 41319105364: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+model=claude-opus-5-5 aic=15.5673
+tokens in=14 out=1568 cache_read=176335 cache_write=17798
+skill_invocations=1 skill_md_read=false tool_calls=7
+tools: Skill(issue-triage) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; cd /home/runner/work/cs467-assignment-3/) | Bash(cd /home/runner/work/cs467-assignment-3/cs467-assignment-3; grep -n -i "fatal\|p) | Bash(cd /home/runner/work/cs467-assignment-3/cs467-assignment-3; sed -n 90,110p READM) | ToolSearch | mcp__safeoutputs__add_labels | mcp__safeoutputs__add_comment
+labels: ["question","area/logger"] state=open locked=false
+Thanks for the report\! First-pass triage:
+
+- **Type:** question — asks about intended `Fatal()` behaviour; no change requested
+- **Area:** logger (`src/log/logger.ts`)
+
+This is documented behaviour: the README section "Logging Fatal Level" says that when `Fatal` is used, the program exits with `process.exit(1)` once the message is written. To log at high severity without exiting, use `Err()` (the `error` level), which is the highest level that does not terminate the process.
+
+==========
+issue #14 run 41319187801: skipped
+  pre_activation=skipped   detection=skipped   activation=skipped   agent=skipped   safe_outputs=skipped   conclusion=skipped 
+labels: ["agent-skip"] state=open locked=false
+==========
+issue #15 run 41319276630: success
+  pre_activation=success   activation=success   agent=success   detection=success   safe_outputs=success   conclusion=success 
+model=claude-opus-5-5 aic=10.96644
+tokens in=10 out=946 cache_read=117072 cache_write=13458
+skill_invocations=1 skill_md_read=false tool_calls=4
+tools: Skill(issue-triage) | Bash(cat /tmp/gh-aw/agent/triage/issue.json; echo; cd /home/runner/work/cs467-assignm) | ToolSearch | mcp__safeoutputs__noop
+labels: [] state=open locked=false
+==========
+issue #16 run 41319361223: success
+  pre_activation=success   activation=success   conclusion=success   detection=skipped   agent=skipped   safe_outputs=skipped 
+labels: [] state=open locked=false
+==========

@@ -1,0 +1,35 @@
+{
+  "id": "08-duplicate-of-01",
+  "kind": "duplicate",
+  "issue": {
+    "title": "Error logs missing when using FilteredLevelWriter with Level.WarnLevel",
+    "body": "Using `new FilteredLevelWriter(writer, Level.WarnLevel)` I only get warn logs; error logs never reach the writer.\n\n```ts\nconst log = NewLogger(new FilteredLevelWriter(new LevelWriterAdapter(StdoutWriter), Level.WarnLevel));\nlog.Error().Msg(\"boom\"); // nothing printed\n```\n\nExpected `boom` to be printed. ctx-log 0.0.7, Node 20.10.",
+    "labels": []
+  },
+  "expected": {
+    "action": "triage",
+    "required_labels": [
+      "bug",
+      "possible-duplicate"
+    ],
+    "optional_labels": [
+      "area/writers",
+      "area/logger"
+    ],
+    "forbidden_labels": [
+      "needs-info",
+      "duplicate"
+    ],
+    "comment": {
+      "required": true,
+      "must_match": [
+        "#{ref:01-filtered-writer-drops-errors}"
+      ],
+      "must_not_match": [
+        "@\\w"
+      ]
+    }
+  },
+  "rationale": "Same defect as case 01, different wording: should be flagged possible-duplicate linking 01.",
+  "order": 8
+}
