@@ -27,4 +27,4 @@ it read as an incomplete task (gh-aw opened tracking issue #20). Replay-only art
 detection and safe_outputs succeeded in all three; 2 show `conclusion=failure` only because
 the agent called `report_incomplete` on the staged previews. Fix: the replay prompt now
 says a staged preview counts as complete, and `golden-drift.yml` replays 5 core cases by
-default (`-f cases=all` for every case). Drift scoring end-to-end remains untested.
+default (`-f cases=all` for every case). Drift scoring end-to-end was then tested: see `../golden/results/golden-replay-2/` (5/5 after a target fix).
