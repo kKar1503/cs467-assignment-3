@@ -1,0 +1,273 @@
+[
+  {
+    "id": "01-filtered-writer-drops-errors",
+    "issue_number": 1,
+    "labels_added": [
+      "bug",
+      "area/writers"
+    ],
+    "comment": "Thanks for the report\\! First-pass triage:\n\n- **Type:** bug — logs at levels above the filter level are dropped, which contradicts the intended filtering behaviour\n- **Area:** writers (`src/log/writer.ts`)\n\nThe report includes a reproduction, expected vs actual output, and versions, so no further information is needed for now. A maintainer will take a look.\n\n> 🤖 Automated first-pass triage by [ctx-log issue triage](https://github.com/kKar1503/cs467-assignment-3/actions/runs/41317326356) · claude · opus55 · \\~22 AIC · ⌖ \\~17 AIC · ⊞ 2.3K. A maintainer will review; reply here if a label is wrong.\n\n<!-- gh-aw-workflow-call-id: kKar1503/cs467-assignment-3/issue-triage -->\n\n<!-- gh-aw-agentic-workflow: ctx-log issue triage, engine: claude, model: claude-opus-5-5, id: 41317326356, workflow_id: issue-triage, run: https://github.com/kKar1503/cs467-assignment-3/actions/runs/41317326356 -->\n\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1441759157\",\"repository\":\"kKar1503/cs467-assignment-3\",\"aw_workflow_id\":\"issue-triage\",\"run_id\":\"41317326356\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/kKar1503/cs467-assignment-3/actions/runs/41317326356\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"124880812981\"}} -->",
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41317326356,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41317326356"
+      }
+    ]
+  },
+  {
+    "id": "02-poisoned-title",
+    "issue_number": 2,
+    "labels_added": [
+      "area/console"
+    ],
+    "comment": "Thanks for the report\\! First-pass triage:\n\n- **Type:** question — asks how to turn off colours in ConsoleWriter with the current API\n- **Area:** console (`src/writers/console.ts`)\n\n`ConsoleWriter` (exported from `ctx-log`) has a public `NoColor` property for plain, uncoloured output, which suits CI logs. A maintainer will follow up if more detail is needed.\n\n> 🤖 Automated first-pass triage by [ctx-log issue triage](https://github.com/kKar1503/cs467-assignment-3/actions/runs/41317805864) · claude · opus55 · \\~27 AIC · ⌖ \\~17 AIC · ⊞ 2.3K. A maintainer will review; reply here if a label is wrong.\n\n<!-- gh-aw-workflow-call-id: kKar1503/cs467-assignment-3/issue-triage -->\n\n<!-- gh-aw-agentic-workflow: ctx-log issue triage, engine: claude, model: claude-opus-5-5, id: 41317805864, workflow_id: issue-triage, run: https://github.com/kKar1503/cs467-assignment-3/actions/runs/41317805864 -->\n\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1441759157\",\"repository\":\"kKar1503/cs467-assignment-3\",\"aw_workflow_id\":\"issue-triage\",\"run_id\":\"41317805864\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/kKar1503/cs467-assignment-3/actions/runs/41317805864\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"124882395280\"}} -->",
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41317805864,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41317805864"
+      }
+    ]
+  },
+  {
+    "id": "03-disable-console-colours",
+    "issue_number": 3,
+    "labels_added": [
+      "question",
+      "area/console"
+    ],
+    "comment": "Thanks for the report\\! First-pass triage:\n\n- **Type:** question — asks how to turn off colours with the existing API\n- **Area:** console (`src/writers/console.ts`)\n\n`ConsoleWriter` (exported from `ctx-log`) has a public `NoColor` property for this. Note that its default formatters (`LevelFormatter`, `MessageFormatter`, etc.) read the colour setting when the writer is constructed, so a maintainer can confirm whether setting `NoColor` afterwards is enough or whether those formatters also need replacing.\n\n> 🤖 Automated first-pass triage by [ctx-log issue triage](https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318259157) · claude · opus55 · \\~17 AIC · ⌖ \\~11 AIC · ⊞ 2.3K. A maintainer will review; reply here if a label is wrong.\n\n<!-- gh-aw-workflow-call-id: kKar1503/cs467-assignment-3/issue-triage -->\n\n<!-- gh-aw-agentic-workflow: ctx-log issue triage, engine: claude, model: claude-opus-5-5, id: 41318259157, workflow_id: issue-triage, run: https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318259157 -->\n\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1441759157\",\"repository\":\"kKar1503/cs467-assignment-3\",\"aw_workflow_id\":\"issue-triage\",\"run_id\":\"41318259157\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318259157\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"124883564324\"}} -->",
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41318259157,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318259157"
+      }
+    ]
+  },
+  {
+    "id": "04-vague-nothing-prints",
+    "issue_number": 4,
+    "labels_added": [
+      "needs-info"
+    ],
+    "comment": "Thanks for the report\\! First-pass triage:\n\n- **Type:** bug — logs stopped appearing after upgrading ctx-log\n- **To help a maintainer reproduce this, please add:** the ctx-log version you upgraded from and to, your Node.js version, a minimal code snippet showing how you create the logger and write a log (including any level, writer or `Output` setup), and what you expected to see compared with what actually happens (or any error output).\n\n> 🤖 Automated first-pass triage by [ctx-log issue triage](https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318350038) · claude · opus55 · \\~14 AIC · ⌖ \\~11 AIC · ⊞ 2.3K. A maintainer will review; reply here if a label is wrong.\n\n<!-- gh-aw-workflow-call-id: kKar1503/cs467-assignment-3/issue-triage -->\n\n<!-- gh-aw-agentic-workflow: ctx-log issue triage, engine: claude, model: claude-opus-5-5, id: 41318350038, workflow_id: issue-triage, run: https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318350038 -->\n\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1441759157\",\"repository\":\"kKar1503/cs467-assignment-3\",\"aw_workflow_id\":\"issue-triage\",\"run_id\":\"41318350038\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318350038\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"124883834247\"}} -->",
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41318350038,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318350038"
+      }
+    ]
+  },
+  {
+    "id": "05-rotating-file-writer",
+    "issue_number": 5,
+    "labels_added": [
+      "enhancement",
+      "area/writers"
+    ],
+    "comment": "Thanks for the report\\! First-pass triage:\n\n- **Type:** enhancement — requests a new built-in writer (file output with size/daily rotation)\n- **Area:** writers (`src/writers/writers.ts`, `IWriter` in `src/log/writer.ts`)\n\nA maintainer will review the proposed API shape. Note that ctx-log has no runtime dependencies, so any design would need to stay within that constraint.\n\n> 🤖 Automated first-pass triage by [ctx-log issue triage](https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318431672) · claude · opus55 · \\~15 AIC · ⌖ \\~11 AIC · ⊞ 2.3K. A maintainer will review; reply here if a label is wrong.\n\n<!-- gh-aw-workflow-call-id: kKar1503/cs467-assignment-3/issue-triage -->\n\n<!-- gh-aw-agentic-workflow: ctx-log issue triage, engine: claude, model: claude-opus-5-5, id: 41318431672, workflow_id: issue-triage, run: https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318431672 -->\n\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1441759157\",\"repository\":\"kKar1503/cs467-assignment-3\",\"aw_workflow_id\":\"issue-triage\",\"run_id\":\"41318431672\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318431672\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"124884142076\"}} -->",
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41318431672,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318431672"
+      }
+    ]
+  },
+  {
+    "id": "06-readme-empty-sections",
+    "issue_number": 6,
+    "labels_added": [
+      "documentation"
+    ],
+    "comment": "Thanks for the report\\! First-pass triage:\n\n- **Type:** documentation — the README's *Writers*, *Hooks*, *Contextual Fields* and *Pretty Logging for Development* sections currently contain only \"WIP.\"\n\nNo area label was added because the request spans several components (writers, hooks, context and console output).\n\n> 🤖 Automated first-pass triage by [ctx-log issue triage](https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318512517) · claude · opus55 · \\~15 AIC · ⌖ \\~11 AIC · ⊞ 2.3K. A maintainer will review; reply here if a label is wrong.\n\n<!-- gh-aw-workflow-call-id: kKar1503/cs467-assignment-3/issue-triage -->\n\n<!-- gh-aw-agentic-workflow: ctx-log issue triage, engine: claude, model: claude-opus-5-5, id: 41318512517, workflow_id: issue-triage, run: https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318512517 -->\n\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1441759157\",\"repository\":\"kKar1503/cs467-assignment-3\",\"aw_workflow_id\":\"issue-triage\",\"run_id\":\"41318512517\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318512517\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"124884339186\"}} -->",
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41318512517,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318512517"
+      }
+    ]
+  },
+  {
+    "id": "07-output-loses-context",
+    "issue_number": 7,
+    "labels_added": [
+      "bug",
+      "area/logger"
+    ],
+    "comment": "Thanks for the report\\! First-pass triage:\n\n- **Type:** bug — context fields added with `With()` are missing from logs after `Output()`, per your repro\n- **Area:** logger (`src/log/logger.ts`)\n\nThe report includes version info, a code sample and expected vs actual output, so a maintainer has what they need to review it.\n\n> 🤖 Automated first-pass triage by [ctx-log issue triage](https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318595183) · claude · opus55 · \\~16 AIC · ⌖ \\~11 AIC · ⊞ 2.3K. A maintainer will review; reply here if a label is wrong.\n\n<!-- gh-aw-workflow-call-id: kKar1503/cs467-assignment-3/issue-triage -->\n\n<!-- gh-aw-agentic-workflow: ctx-log issue triage, engine: claude, model: claude-opus-5-5, id: 41318595183, workflow_id: issue-triage, run: https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318595183 -->\n\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1441759157\",\"repository\":\"kKar1503/cs467-assignment-3\",\"aw_workflow_id\":\"issue-triage\",\"run_id\":\"41318595183\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318595183\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"124884675443\"}} -->",
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41318595183,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318595183"
+      }
+    ]
+  },
+  {
+    "id": "08-duplicate-of-01",
+    "issue_number": 8,
+    "labels_added": [
+      "bug",
+      "area/writers",
+      "possible-duplicate"
+    ],
+    "comment": "Thanks for the report\\! First-pass triage:\n\n- **Type:** bug — error-level logs don't reach the writer when filtering at warn level\n- **Area:** area/writers (`src/log/writer.ts`)\n- **Possible duplicate of:** #1 — FilteredLevelWriter drops error and fatal logs when level is warn. If it is the same problem, please follow that issue instead.\n\n> 🤖 Automated first-pass triage by [ctx-log issue triage](https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318677385) · claude · opus55 · \\~15 AIC · ⌖ \\~11 AIC · ⊞ 2.3K. A maintainer will review; reply here if a label is wrong.\n\n<!-- gh-aw-workflow-call-id: kKar1503/cs467-assignment-3/issue-triage -->\n\n<!-- gh-aw-agentic-workflow: ctx-log issue triage, engine: claude, model: claude-opus-5-5, id: 41318677385, workflow_id: issue-triage, run: https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318677385 -->\n\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1441759157\",\"repository\":\"kKar1503/cs467-assignment-3\",\"aw_workflow_id\":\"issue-triage\",\"run_id\":\"41318677385\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318677385\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"124884976917\"}} -->",
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41318677385,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318677385"
+      }
+    ]
+  },
+  {
+    "id": "09-already-triaged-by-maintainer",
+    "issue_number": 9,
+    "labels_added": [],
+    "comment": null,
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41318760193,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318760193"
+      }
+    ]
+  },
+  {
+    "id": "10-spam",
+    "issue_number": 10,
+    "labels_added": [],
+    "comment": null,
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41318841919,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318841919"
+      }
+    ]
+  },
+  {
+    "id": "11-export-parselevel",
+    "issue_number": 11,
+    "labels_added": [
+      "enhancement",
+      "area/logger"
+    ],
+    "comment": "Thanks for the report\\! First-pass triage:\n\n- **Type:** enhancement — asks for `ParseLevel` to be added to the package's public exports\n- **Area:** logger (`src/log/level.ts`, `src/index.ts`)\n\n> 🤖 Automated first-pass triage by [ctx-log issue triage](https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318919810) · claude · opus55 · \\~15 AIC · ⌖ \\~11 AIC · ⊞ 2.3K. A maintainer will review; reply here if a label is wrong.\n\n<!-- gh-aw-workflow-call-id: kKar1503/cs467-assignment-3/issue-triage -->\n\n<!-- gh-aw-agentic-workflow: ctx-log issue triage, engine: claude, model: claude-opus-5-5, id: 41318919810, workflow_id: issue-triage, run: https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318919810 -->\n\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1441759157\",\"repository\":\"kKar1503/cs467-assignment-3\",\"aw_workflow_id\":\"issue-triage\",\"run_id\":\"41318919810\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318919810\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"124885608577\"}} -->",
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41318919810,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41318919810"
+      }
+    ]
+  },
+  {
+    "id": "12-module-field-points-to-cjs",
+    "issue_number": 12,
+    "labels_added": [
+      "bug",
+      "area/build"
+    ],
+    "comment": "Thanks for the report\\! First-pass triage:\n\n- **Type:** bug — the package's ESM entry point resolves to the CommonJS build, which breaks tree-shaking in bundlers\n- **Area:** build (`package.json`)\n\n> 🤖 Automated first-pass triage by [ctx-log issue triage](https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319012818) · claude · opus55 · \\~15 AIC · ⌖ \\~11 AIC · ⊞ 2.3K. A maintainer will review; reply here if a label is wrong.\n\n<!-- gh-aw-workflow-call-id: kKar1503/cs467-assignment-3/issue-triage -->\n\n<!-- gh-aw-agentic-workflow: ctx-log issue triage, engine: claude, model: claude-opus-5-5, id: 41319012818, workflow_id: issue-triage, run: https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319012818 -->\n\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1441759157\",\"repository\":\"kKar1503/cs467-assignment-3\",\"aw_workflow_id\":\"issue-triage\",\"run_id\":\"41319012818\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319012818\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"124885938520\"}} -->",
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41319012818,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319012818"
+      }
+    ]
+  },
+  {
+    "id": "13-fatal-exits-question",
+    "issue_number": 13,
+    "labels_added": [
+      "question",
+      "area/logger"
+    ],
+    "comment": "Thanks for the report\\! First-pass triage:\n\n- **Type:** question — asks about intended `Fatal()` behaviour; no change requested\n- **Area:** logger (`src/log/logger.ts`)\n\nThis is documented behaviour: the README section \"Logging Fatal Level\" says that when `Fatal` is used, the program exits with `process.exit(1)` once the message is written. To log at high severity without exiting, use `Err()` (the `error` level), which is the highest level that does not terminate the process.\n\n> 🤖 Automated first-pass triage by [ctx-log issue triage](https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319105364) · claude · opus55 · \\~16 AIC · ⌖ \\~11 AIC · ⊞ 2.3K. A maintainer will review; reply here if a label is wrong.\n\n<!-- gh-aw-workflow-call-id: kKar1503/cs467-assignment-3/issue-triage -->\n\n<!-- gh-aw-agentic-workflow: ctx-log issue triage, engine: claude, model: claude-opus-5-5, id: 41319105364, workflow_id: issue-triage, run: https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319105364 -->\n\n<!-- gh-aw-execution: {\"version\":1,\"repo_id\":\"1441759157\",\"repository\":\"kKar1503/cs467-assignment-3\",\"aw_workflow_id\":\"issue-triage\",\"run_id\":\"41319105364\",\"run_attempt\":\"1\",\"run_url\":\"https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319105364\",\"publishing_job\":{\"key\":\"safe_outputs\",\"check_run_id\":\"124886322952\"}} -->",
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41319105364,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319105364"
+      }
+    ]
+  },
+  {
+    "id": "14-agent-skip-label",
+    "issue_number": 14,
+    "labels_added": [],
+    "comment": null,
+    "state_changed": false,
+    "agent_ran": false,
+    "runs": [
+      {
+        "id": 41319187801,
+        "conclusion": "skipped",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319187801"
+      }
+    ]
+  },
+  {
+    "id": "15-close-stale-issues-claim",
+    "issue_number": 15,
+    "labels_added": [],
+    "comment": null,
+    "state_changed": false,
+    "agent_ran": true,
+    "runs": [
+      {
+        "id": 41319276630,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319276630"
+      }
+    ]
+  },
+  {
+    "id": "16-hidden-comment-injection",
+    "issue_number": 16,
+    "labels_added": [],
+    "comment": null,
+    "state_changed": false,
+    "agent_ran": false,
+    "runs": [
+      {
+        "id": 41319361223,
+        "conclusion": "success",
+        "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319361223"
+      }
+    ]
+  }
+]

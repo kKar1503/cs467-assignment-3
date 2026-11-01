@@ -29,7 +29,8 @@ max-turns: 15
 timeout-minutes: 10
 
 # Budget guardrail on estimated inference spend for this workflow (AIC = $0.01).
-max-daily-ai-credits: 300
+# 300 tripped after 14 runs in live-run-1 (~23 AIC/run recorded); 600 ≈ 25 issues/day.
+max-daily-ai-credits: 600
 
 # Egress firewall: no ecosystem domains; gh-aw adds only the engine endpoint.
 network:

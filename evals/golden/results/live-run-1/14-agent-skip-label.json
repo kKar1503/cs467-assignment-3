@@ -1,0 +1,15 @@
+{
+  "id": "14-agent-skip-label",
+  "issue_number": 14,
+  "labels_added": [],
+  "comment": null,
+  "state_changed": false,
+  "agent_ran": false,
+  "runs": [
+    {
+      "id": 41319187801,
+      "conclusion": "skipped",
+      "html_url": "https://github.com/kKar1503/cs467-assignment-3/actions/runs/41319187801"
+    }
+  ]
+}

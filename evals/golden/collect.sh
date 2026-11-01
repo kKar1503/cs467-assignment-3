@@ -12,8 +12,9 @@ for f in $(ls cases/*.json | sort); do
   issue=$(gh api "repos/$REPO/issues/$num")
   events=$(gh api --paginate "repos/$REPO/issues/$num/events" | jq -s 'add')
   comments=$(gh api --paginate "repos/$REPO/issues/$num/comments" | jq -s 'add')
+  # Runs share one run-name, so take the first triage run created at/after the issue.
   runs=$(gh api "repos/$REPO/actions/workflows/issue-triage.lock.yml/runs?event=issues&per_page=100" \
-    | jq --arg t "$(jq -r .issue.title "$f")" '[.workflow_runs[] | select(.display_title == $t)]')
+    | jq --arg c "$(jq -r .created_at <<<"$issue")" '[.workflow_runs[] | select(.created_at >= $c)] | sort_by(.created_at) | .[:1]')
   agent_ran=false
   for rid in $(jq -r '.[].id' <<<"$runs"); do
     c=$(gh api "repos/$REPO/actions/runs/$rid/jobs" | jq -r '.jobs[] | select(.name=="agent") | .conclusion')
