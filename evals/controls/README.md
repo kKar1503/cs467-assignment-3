@@ -22,3 +22,9 @@ dispatched with `GITHUB_TOKEN`; re-score with
 Observed so far: replay 41320412543 applied labels + comment, then called
 `report_incomplete` — staged mode tells the agent its writes were only previewed, which
 it read as an incomplete task (gh-aw opened tracking issue #20). Replay-only artefact.
+
+**Update:** the remaining 11 replays were cancelled for time. 3 completed: agent,
+detection and safe_outputs succeeded in all three; 2 show `conclusion=failure` only because
+the agent called `report_incomplete` on the staged previews. Fix: the replay prompt now
+says a staged preview counts as complete, and `golden-drift.yml` replays 5 core cases by
+default (`-f cases=all` for every case). Drift scoring end-to-end remains untested.

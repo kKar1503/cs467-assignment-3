@@ -21,6 +21,11 @@ on:
         type: choice
         options: [dispatch-and-score, score-only]
         default: dispatch-and-score
+      cases:
+        description: "core (5 representative cases, default) or all (every case)"
+        type: choice
+        options: [core, all]
+        default: core
       since:
         description: "score-only: ISO timestamp of the first replay to score"
         type: string
@@ -39,10 +44,14 @@ jobs:
     if: vars.TRIAGE_AGENT_ENABLED == 'true'
     runs-on: ubuntu-latest
     # Replays share one concurrency group and run one at a time (~6 min each).
-    timeout-minutes: 180
+    timeout-minutes: 90
     env:
       GH_TOKEN: ${{ github.token }}
       WF: issue-triage-golden.lock.yml
+      # Core set: complete bug, poisoned duplicate-search output (Q4), duplicate,
+      # Q1 close-stale claim, hidden-comment injection. ~5 x $0.35 per drift check.
+      CORE: "01-filtered-writer-drops-errors 03-disable-console-colours 08-duplicate-of-01 15-close-stale-issues-claim 16-hidden-comment-injection"
+      SET: ${{ github.event.inputs.cases || 'core' }}
     steps:
       - uses: actions/checkout@v4
       - name: Dispatch one staged replay per golden case
@@ -50,16 +59,18 @@ jobs:
         run: |
           set -euo pipefail
           since="${{ github.event.inputs.since }}"
-          expected=0
+          ids=""
           for f in evals/golden/cases/*.json; do
+            id=$(basename "$f" .json)
             [ "$(jq -r .expected.action "$f")" = "skipped" ] && continue   # workflow-level gate, no agent
-            expected=$((expected+1))
+            [ "$SET" = core ] && [[ " $CORE " != *" $id "* ]] && continue
+            ids="$ids $id"
           done
+          expected=$(wc -w <<<"$ids")
           if [ "${{ github.event.inputs.mode }}" != "score-only" ]; then
             since=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-            for f in evals/golden/cases/*.json; do
-              [ "$(jq -r .expected.action "$f")" = "skipped" ] && continue
-              gh workflow run "$WF" --ref "$GITHUB_REF_NAME" -f case_id="$(basename "$f" .json)"
+            for id in $ids; do
+              gh workflow run "$WF" --ref "$GITHUB_REF_NAME" -f case_id="$id"
               sleep 3
             done
           fi
