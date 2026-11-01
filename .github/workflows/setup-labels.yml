@@ -1,4 +1,5 @@
 name: Setup triage labels
+# Labels are the hard allowlist for safe-outputs; keep in sync with labels.json.
 # One-off, manually triggered: creates/updates the labels defined in
 # .claude/skills/issue-triage/labels.json so safe-outputs never needs create-if-missing.
 on:
