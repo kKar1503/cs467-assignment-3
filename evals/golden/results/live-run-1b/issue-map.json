@@ -1,0 +1,18 @@
+{
+  "01-filtered-writer-drops-errors": 1,
+  "02-poisoned-title": 2,
+  "03-disable-console-colours": 3,
+  "04-vague-nothing-prints": 4,
+  "05-rotating-file-writer": 5,
+  "06-readme-empty-sections": 6,
+  "07-output-loses-context": 7,
+  "08-duplicate-of-01": 8,
+  "09-already-triaged-by-maintainer": 9,
+  "10-spam": 10,
+  "11-export-parselevel": 11,
+  "12-module-field-points-to-cjs": 12,
+  "13-fatal-exits-question": 13,
+  "14-agent-skip-label": 14,
+  "15-close-stale-issues-claim": 15,
+  "16-hidden-comment-injection": 18
+}
