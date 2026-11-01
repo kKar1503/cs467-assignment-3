@@ -11,8 +11,8 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "dev": "vitest --coverage",
-    "test": "vitest run",
+    "dev": "vitest --dir src --coverage",
+    "test": "vitest run --dir src",
     "build": "tsup src/index.ts --format cjs,esm --dts --minify --sourcemap",
     "lint": "pnpm run lint:eslint && pnpm run lint:type",
     "lint:type": "tsc",
