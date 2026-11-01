@@ -1,0 +1,36 @@
+name: Golden drift score
+# Scores each completed golden replay against evals/golden/cases/<id>.json.
+on:
+  workflow_run:
+    workflows: ["ctx-log issue triage (golden replay)"]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - name: Download agent artifact of the replay run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh run download "${{ github.event.workflow_run.id }}" -n agent -D replay
+      - name: Score
+        run: |
+          set -euo pipefail
+          id=$(grep -m1 -oE 'Golden case: [a-z0-9-]+' replay/aw-prompts/prompt.txt | cut -d' ' -f3)
+          echo "case: $id"
+          {
+            echo "### Golden case \`$id\` (replay run ${{ github.event.workflow_run.html_url }})"
+            echo '```'
+            node evals/golden/score.mjs --case "$id" --agent-output replay/agent_output.json || echo "SCORE_FAILED"
+            echo '```'
+            echo "Skill invoked: $(grep -c '"name":"Skill"' replay/agent-session.jsonl || true) time(s)"
+          } | tee -a "$GITHUB_STEP_SUMMARY" > score.txt
+          ! grep -q SCORE_FAILED score.txt

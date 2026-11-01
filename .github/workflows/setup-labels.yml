@@ -1,0 +1,28 @@
+name: Setup triage labels
+# One-off, manually triggered: creates/updates the labels defined in
+# .claude/skills/issue-triage/labels.json so safe-outputs never needs create-if-missing.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  labels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create or update labels
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          cfg=.claude/skills/issue-triage/labels.json
+          mk() { gh label create "$1" --color "$2" --description "$3" --force; }
+          jq -r '.type   | to_entries[] | [.key, .value] | @tsv' "$cfg" | while IFS=$'\t' read -r n d; do mk "$n" 1d76db "$d"; done
+          jq -r '.area   | to_entries[] | [.key, .value] | @tsv' "$cfg" | while IFS=$'\t' read -r n d; do mk "$n" c5def5 "${d:0:99}"; done
+          jq -r '.status | to_entries[] | [.key, .value] | @tsv' "$cfg" | while IFS=$'\t' read -r n d; do mk "$n" fbca04 "$d"; done
+          jq -r '.maintainerOnly[]' "$cfg" | while read -r n; do mk "$n" 5319e7 "Maintainer-only (agent cannot apply)"; done
+          gh label list --limit 100

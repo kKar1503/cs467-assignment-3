@@ -1,0 +1,8 @@
+# Agent configuration must be reviewed by the maintainer accountable for the agent.
+/.github/workflows/  @kKar1503
+/.github/CODEOWNERS  @kKar1503
+/.claude/            @kKar1503
+/AGENTS.md           @kKar1503
+/CONTRIBUTING.md     @kKar1503
+/DESIGN.md           @kKar1503
+/evals/              @kKar1503

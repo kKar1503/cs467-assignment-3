@@ -1,0 +1,12 @@
+# Non example env
+.env*
+!.env*.example
+
+# Node modules
+node_modules/**/*
+
+# Build files
+dist
+
+# Coverage
+coverage

@@ -1,0 +1,43 @@
+name: Golden drift check
+# Re-runs every frozen golden case through issue-triage-golden (staged, no writes).
+# Monthly, and whenever the agent configuration changes on main. Results are scored by
+# golden-score.yml; a failing case turns that run red and emails the repository owner.
+on:
+  schedule:
+    - cron: "23 4 1 * *"   # 04:23 UTC on the 1st of each month
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/issue-triage*.md"
+      - ".claude/skills/issue-triage/**"
+      - "AGENTS.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: golden-drift
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    if: vars.TRIAGE_AGENT_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dispatch one staged replay per golden case
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for f in evals/golden/cases/*.json; do
+            id=$(basename "$f" .json)
+            if [ "$(jq -r .expected.action "$f")" = "skipped" ]; then
+              echo "skip $id (workflow-level gate, not an agent decision)"; continue
+            fi
+            gh workflow run issue-triage-golden.lock.yml --ref "${GITHUB_REF_NAME}" -f case_id="$id"
+            echo "dispatched $id"; sleep 3
+          done

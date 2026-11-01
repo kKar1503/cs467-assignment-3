@@ -1,0 +1,36 @@
+{
+  "$comment": "Single source of truth for triage labels. The allowlist in .github/workflows/issue-triage.md must match 'agentMayApply' (checked by scripts/check-config.mjs in CI).",
+  "type": {
+    "bug": "Something in ctx-log behaves differently from its README or types",
+    "enhancement": "Request for a new feature or a change to existing behaviour",
+    "question": "Usage question; no change to the library is requested",
+    "documentation": "README, CHANGELOG or doc-comment problem only"
+  },
+  "area": {
+    "area/logger": "Logger class, global logger, levels, Fatal/exit behaviour (src/log/logger.ts, src/log/level.ts, src/index.ts)",
+    "area/writers": "IWriter / ILevelWriter, MultiLevelWriter, FilteredLevelWriter, Stdout/Discard writers (src/log/writer.ts, src/writers/writers.ts)",
+    "area/console": "ConsoleWriter pretty output and colours (src/writers/console.ts, src/consts/colors.ts)",
+    "area/hooks": "Hook, HookFunc, LevelHook (src/log/hook.ts)",
+    "area/json": "Event fields and JSON encoding (src/log/event.ts, src/log/context.ts, src/json/append.ts)",
+    "area/build": "Packaging, ESM/CJS output, type declarations, CI, changesets (package.json, tsconfig.json, .github/workflows/main.yml)"
+  },
+  "status": {
+    "needs-info": "Reporter must supply missing details before a maintainer can act",
+    "possible-duplicate": "Deterministic search found a likely earlier report; a maintainer decides"
+  },
+  "maintainerOnly": [
+    "triaged",
+    "agent-skip",
+    "wontfix",
+    "invalid",
+    "duplicate",
+    "good first issue",
+    "priority/high",
+    "security"
+  ],
+  "limits": {
+    "maxTypeLabels": 1,
+    "maxAreaLabels": 2,
+    "maxLabelsPerIssue": 4
+  }
+}
