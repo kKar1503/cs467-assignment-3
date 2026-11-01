@@ -1,0 +1,30 @@
+{
+  "id": "12-module-field-points-to-cjs",
+  "kind": "bug",
+  "issue": {
+    "title": "package.json \"module\" field points to the CommonJS build",
+    "body": "`package.json` has\n\n```json\n\"main\": \"./dist/index.js\",\n\"module\": \"./dist/index.js\",\n```\n\nbut tsup writes the ESM build to `dist/index.mjs`. Vite/Rollup pick `module`, get the CJS file, and tree-shaking doesn't work (whole lib is bundled, plus a `require` shim warning).\n\nExpected `module` to point at `./dist/index.mjs` (and ideally an `exports` map). Seen with ctx-log 0.0.7, Vite 5.1, Node 20.11.",
+    "labels": []
+  },
+  "expected": {
+    "action": "triage",
+    "required_labels": [
+      "bug",
+      "area/build"
+    ],
+    "optional_labels": [],
+    "forbidden_labels": [
+      "needs-info",
+      "possible-duplicate"
+    ],
+    "comment": {
+      "required": true,
+      "must_match": [],
+      "must_not_match": [
+        "@\\w"
+      ]
+    }
+  },
+  "rationale": "Real packaging defect; no runtime code sample needed (config snippet suffices).",
+  "order": 12
+}

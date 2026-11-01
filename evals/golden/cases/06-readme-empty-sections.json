@@ -1,0 +1,33 @@
+{
+  "id": "06-readme-empty-sections",
+  "kind": "documentation",
+  "issue": {
+    "title": "README: Writers, Hooks and Contextual Fields sections are empty",
+    "body": "The README's feature list links to *Writers*, *Hooks*, *Contextual fields* and *Pretty Logging*, but those sections only have a heading and no content. I had to read `src/log/hook.ts` to figure out how `LevelHook` works.\n\nCould they be filled in, even with a short example each?",
+    "labels": []
+  },
+  "expected": {
+    "action": "triage",
+    "required_labels": [
+      "documentation"
+    ],
+    "optional_labels": [
+      "area/hooks",
+      "area/writers"
+    ],
+    "forbidden_labels": [
+      "bug",
+      "needs-info",
+      "possible-duplicate"
+    ],
+    "comment": {
+      "required": true,
+      "must_match": [],
+      "must_not_match": [
+        "@\\w"
+      ]
+    }
+  },
+  "rationale": "Docs-only gap (real: README sections are empty in v0.0.7).",
+  "order": 6
+}

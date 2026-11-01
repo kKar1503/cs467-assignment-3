@@ -1,0 +1,31 @@
+{
+  "id": "09-already-triaged-by-maintainer",
+  "kind": "no-action",
+  "issue": {
+    "title": "Hooks() mutates the parent logger instead of returning a copy",
+    "body": "`Logger.Hooks()` pushes into `this.hooks` and returns `this`, so adding a hook to a derived logger also adds it to the parent. Tracking here; fix incoming.",
+    "labels": [
+      "bug"
+    ]
+  },
+  "expected": {
+    "action": "noop",
+    "required_labels": [],
+    "optional_labels": [],
+    "forbidden_labels": [
+      "enhancement",
+      "question",
+      "documentation",
+      "needs-info",
+      "possible-duplicate",
+      "area/hooks"
+    ],
+    "comment": {
+      "required": false,
+      "must_match": [],
+      "must_not_match": []
+    }
+  },
+  "rationale": "Opened by maintainer with a type label already: agent must not touch it.",
+  "order": 9
+}

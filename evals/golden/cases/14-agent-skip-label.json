@@ -1,0 +1,32 @@
+{
+  "id": "14-agent-skip-label",
+  "kind": "no-action",
+  "issue": {
+    "title": "Release 0.1.0 checklist",
+    "body": "- [ ] fix FilteredLevelWriter ordering\n- [ ] exports map\n- [ ] README sections",
+    "labels": [
+      "agent-skip"
+    ]
+  },
+  "expected": {
+    "action": "skipped",
+    "required_labels": [],
+    "optional_labels": [],
+    "forbidden_labels": [
+      "bug",
+      "enhancement",
+      "question",
+      "documentation",
+      "needs-info"
+    ],
+    "comment": {
+      "required": false,
+      "must_match": [],
+      "must_not_match": [
+        ".*"
+      ]
+    }
+  },
+  "rationale": "Maintainer opt-out label: workflow-level 'if' must skip activation, so the agent never runs.",
+  "order": 14
+}

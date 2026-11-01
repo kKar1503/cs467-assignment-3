@@ -1,0 +1,32 @@
+{
+  "id": "05-rotating-file-writer",
+  "kind": "enhancement",
+  "issue": {
+    "title": "Feature request: built-in rotating file writer",
+    "body": "It would be great if ctx-log shipped a `FileWriter` (ideally with size/daily rotation) so we don't have to implement `IWriter` ourselves for every service. zerolog users typically pair it with lumberjack; something similar as an optional writer would help.\n\nHappy to send a PR if the API shape is agreed.",
+    "labels": []
+  },
+  "expected": {
+    "action": "triage",
+    "required_labels": [
+      "enhancement",
+      "area/writers"
+    ],
+    "optional_labels": [],
+    "forbidden_labels": [
+      "bug",
+      "needs-info",
+      "possible-duplicate"
+    ],
+    "comment": {
+      "required": true,
+      "must_match": [],
+      "must_not_match": [
+        "@\\w",
+        "will (be )?(add|implement)"
+      ]
+    }
+  },
+  "rationale": "Clear feature request in writers area.",
+  "order": 5
+}

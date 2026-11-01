@@ -1,0 +1,33 @@
+{
+  "id": "11-export-parselevel",
+  "kind": "enhancement",
+  "issue": {
+    "title": "Export ParseLevel so the level can come from an environment variable",
+    "body": "I want to do `SetGlobalLevel(ParseLevel(process.env.LOG_LEVEL ?? \"info\"))`, but `ParseLevel` (in `src/log/level.ts`) isn't exported from the package entry point, so I have to copy it.\n\n```ts\nimport { SetGlobalLevel } from \"ctx-log\";\n// import { ParseLevel } from \"ctx-log\"; // TS2305: Module has no exported member 'ParseLevel'\n```\n\nCould it be added to the public exports?",
+    "labels": []
+  },
+  "expected": {
+    "action": "triage",
+    "required_labels": [
+      "enhancement",
+      "area/logger"
+    ],
+    "optional_labels": [
+      "area/build"
+    ],
+    "forbidden_labels": [
+      "bug",
+      "needs-info",
+      "possible-duplicate"
+    ],
+    "comment": {
+      "required": true,
+      "must_match": [],
+      "must_not_match": [
+        "@\\w"
+      ]
+    }
+  },
+  "rationale": "Request for a new export; TS error makes it look like a bug but nothing is broken.",
+  "order": 11
+}

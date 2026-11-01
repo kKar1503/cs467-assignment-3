@@ -1,0 +1,32 @@
+{
+  "id": "07-output-loses-context",
+  "kind": "bug",
+  "issue": {
+    "title": "Logger.Output() / OutputLogger() drops context fields added with With()",
+    "body": "Context fields disappear when I redirect a logger to a different writer.\n\n```ts\nimport { NewLogger, StdoutWriter } from \"ctx-log\";\n\nconst base = NewLogger(StdoutWriter).With().String(\"service\", \"api\").Logger();\nbase.Info().Msg(\"a\");                       // {\"level\":\"info\",\"service\":\"api\",\"message\":\"a\"}\nbase.Output(StdoutWriter).Info().Msg(\"b\");  // {\"level\":\"info\",\"message\":\"b\"}  <- service missing\n```\n\nExpected the second line to still contain `\"service\":\"api\"`. In `Logger.Output` a `newContext` array is built but never assigned to the new logger.\n\nctx-log 0.0.7 / Node v18.19.0",
+    "labels": []
+  },
+  "expected": {
+    "action": "triage",
+    "required_labels": [
+      "bug",
+      "area/logger"
+    ],
+    "optional_labels": [
+      "area/json"
+    ],
+    "forbidden_labels": [
+      "needs-info",
+      "possible-duplicate"
+    ],
+    "comment": {
+      "required": true,
+      "must_match": [],
+      "must_not_match": [
+        "@\\w"
+      ]
+    }
+  },
+  "rationale": "Real defect in Logger.Output (context copied into unused variable).",
+  "order": 7
+}

@@ -1,0 +1,35 @@
+{
+  "id": "04-vague-nothing-prints",
+  "kind": "bug-needs-info",
+  "issue": {
+    "title": "logs stopped working",
+    "body": "After updating ctx-log my logs don't show up anymore. Was working before. Please fix asap",
+    "labels": []
+  },
+  "expected": {
+    "action": "triage",
+    "required_labels": [
+      "bug",
+      "needs-info"
+    ],
+    "optional_labels": [
+      "area/logger",
+      "area/writers"
+    ],
+    "forbidden_labels": [
+      "possible-duplicate"
+    ],
+    "comment": {
+      "required": true,
+      "must_match": [
+        "(?i)version",
+        "(?i)(code|snippet|sample|example)"
+      ],
+      "must_not_match": [
+        "@\\w"
+      ]
+    }
+  },
+  "rationale": "Claims a regression but gives no version, code, or output: needs-info.",
+  "order": 4
+}
