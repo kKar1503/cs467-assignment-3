@@ -1,4 +1,5 @@
 name: Golden drift score
+# Owner: @kKar1503.
 # Scores each completed golden replay against evals/golden/cases/<id>.json.
 on:
   workflow_run:

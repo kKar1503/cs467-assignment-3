@@ -3,6 +3,7 @@
 # must stay identical except 'staged: true' (checked by check-config.mjs).
 description: Drift check - replays one frozen golden case through the production triage configuration in staged (no-write) mode.
 labels: ["triage", "eval"]
+# Owner / accountable maintainer: @kKar1503 (see .github/CODEOWNERS and DESIGN.md).
 
 on:
   workflow_dispatch:

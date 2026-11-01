@@ -1,4 +1,5 @@
 name: Golden drift check
+# Owner: @kKar1503.
 # Re-runs every frozen golden case through issue-triage-golden (staged, no writes).
 # Monthly, and whenever the agent configuration changes on main. Results are scored by
 # golden-score.yml; a failing case turns that run red and emails the repository owner.

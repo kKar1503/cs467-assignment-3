@@ -2,6 +2,7 @@
 description: First-pass triage of newly opened ctx-log issues (type/area labels, duplicate hint, missing-info request).
 intent: Give every new issue a correct first response within minutes so the single maintainer only reviews, never sorts.
 labels: ["triage", "issues"]
+# Owner / accountable maintainer: @kKar1503 (see .github/CODEOWNERS and DESIGN.md).
 
 on:
   issues:
