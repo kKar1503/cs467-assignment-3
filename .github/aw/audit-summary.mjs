@@ -11,10 +11,12 @@ const dir = process.argv[2] ?? "/tmp/gh-aw";
 const read = (f) => (existsSync(join(dir, f)) ? readFileSync(join(dir, f), "utf8") : "");
 
 const tools = [];
+const seen = new Set();
 const visit = (v) => {
   if (Array.isArray(v)) return v.forEach(visit);
   if (v && typeof v === "object") {
-    if (v.type === "tool_use" && typeof v.name === "string") {
+    if (v.type === "tool_use" && typeof v.name === "string" && !seen.has(v.id ?? Symbol())) {
+      if (v.id) seen.add(v.id);
       const input = v.input ?? {};
       let detail = "";
       if (v.name === "Bash") detail = String(input.command ?? "").split(" --")[0].slice(0, 80);
