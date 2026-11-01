@@ -50,5 +50,7 @@ node evals/golden/score.mjs --actual evals/golden/results/live-run-1/actual.json
 ```
 
 Drift replay (no writes, staged safe outputs): run the *Golden drift check* workflow
-(`gh workflow run golden-drift.yml`); each case's score appears in the *Golden drift score*
-run summary, which fails on any regression.
+(`gh workflow run golden-drift.yml`). It dispatches one replay per case, waits for all of
+them, downloads each replay's `agent` artifact, scores it and fails on any regression; the
+per-case table is in the run summary. To re-score replays that already ran:
+`gh workflow run golden-drift.yml -f mode=score-only -f since=<ISO time>`.
